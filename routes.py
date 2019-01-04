@@ -28,7 +28,7 @@ def signup():
     form: SignupForm = SignupForm()
 
     if request.method == 'POST':
-        if form.validate() == False:
+        if not form.validate():
             return render_template('signup.html', form=form)
         else:
             newuser = User(form.first_name.data,
@@ -59,6 +59,12 @@ def login():
         else:
             return redirect(url_for('login'))  # triggers GET request
     return render_template('login.html', form=form)
+
+
+@app.route('/logout')
+def logout():
+    session.pop('email', None)
+    return redirect(url_for('index'))
 
 
 @app.route('/home')
